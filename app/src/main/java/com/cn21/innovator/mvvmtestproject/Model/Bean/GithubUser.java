@@ -1,15 +1,22 @@
 package com.cn21.innovator.mvvmtestproject.Model.Bean;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 
 /**
+ * 实体Bean
  * Created by innovator on 2018/2/8.
  */
 
+@Entity(tableName = "user")
 public class GithubUser implements Serializable{
 
-  private String login;
+  @PrimaryKey
   private int id;
+
+  private String login;
   private String avatar_url;
   private String gravatar_id;
   private String url;
@@ -26,22 +33,19 @@ public class GithubUser implements Serializable{
   private String type;
   private boolean site_admin;
   private String name;
-  private Object company;
+  private String company;
   private String blog;
-  private Object location;
-  private Object email;
+  private String location;
+  private String email;
   private boolean hireable;
-  private Object bio;
-  private int public_repos;
-  private int public_gists;
-  private int followers;
-  private int following;
-  private String created_at;
-  private String updated_at;
+  private String bio;
 
-  @Override
-  public String toString() {
-    return "获取到的 Github User 信息,名字:"+name+"，id："+id+"，粉丝："+followers;
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getLogin() {
@@ -50,14 +54,6 @@ public class GithubUser implements Serializable{
 
   public void setLogin(String login) {
     this.login = login;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getAvatar_url() {
@@ -188,11 +184,11 @@ public class GithubUser implements Serializable{
     this.name = name;
   }
 
-  public Object getCompany() {
+  public String getCompany() {
     return company;
   }
 
-  public void setCompany(Object company) {
+  public void setCompany(String company) {
     this.company = company;
   }
 
@@ -204,19 +200,19 @@ public class GithubUser implements Serializable{
     this.blog = blog;
   }
 
-  public Object getLocation() {
+  public String getLocation() {
     return location;
   }
 
-  public void setLocation(Object location) {
+  public void setLocation(String location) {
     this.location = location;
   }
 
-  public Object getEmail() {
+  public String getEmail() {
     return email;
   }
 
-  public void setEmail(Object email) {
+  public void setEmail(String email) {
     this.email = email;
   }
 
@@ -228,11 +224,11 @@ public class GithubUser implements Serializable{
     this.hireable = hireable;
   }
 
-  public Object getBio() {
+  public String getBio() {
     return bio;
   }
 
-  public void setBio(Object bio) {
+  public void setBio(String bio) {
     this.bio = bio;
   }
 
@@ -283,4 +279,18 @@ public class GithubUser implements Serializable{
   public void setUpdated_at(String updated_at) {
     this.updated_at = updated_at;
   }
+
+  private int public_repos;
+  private int public_gists;
+  private int followers;
+  private int following;
+  private String created_at;
+  private String updated_at;
+
+  @Override
+  public String toString() {
+    return "获取到的 Github User 信息,名字:"+name+"，id："+id+"，粉丝："+followers;
+  }
+
+
 }

@@ -1,16 +1,11 @@
 package com.cn21.innovator.mvvmtestproject.Model;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
+import android.content.Context;
 
-import com.cn21.innovator.mvvmtestproject.API.UserApi;
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
-import com.cn21.innovator.mvvmtestproject.Model.Utils.RetrofitFactory;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.cn21.innovator.mvvmtestproject.Model.Dao.UserDataSource;
+import com.cn21.innovator.mvvmtestproject.Model.Utils.NetworkUtils;
 
 /**
  * Github User的数据源
@@ -29,24 +24,25 @@ public class UserRepository {
     return instance;
   }
 
-  private UserApi userApi = RetrofitFactory.getInstance().create(UserApi.class);
+  private Context context;
+  private UserDataSource remoteUserDataSource = RemoteUserDataSource.getInstance();
+  private UserDataSource localUserDataSource = LocalUserDataSource.getInstance();
 
 
-  public LiveData<GithubUser> getUser(String name){
-    final MutableLiveData<GithubUser> user = new MutableLiveData<>();
-    userApi.queryUserByUsername(name)
-            .enqueue(new Callback<GithubUser>() {
-              @Override
-              public void onResponse(Call<GithubUser> call, Response<GithubUser> response) {
-                user.setValue(response.body());
-              }
+  public void init(Context context) {
+    this.context = context.getApplicationContext();
+  }
 
-              @Override
-              public void onFailure(Call<GithubUser> call, Throwable t) {
-                Log.d("TAG","获取GithubUser出错："+t.getMessage());
-              }
-            });
-
-    return user;
+  /**
+   * 通过有无网络判断从本地还是服务器获取数据
+   * @param username
+   * @return
+   */
+  public LiveData<GithubUser> getUser(String username) {
+    if (NetworkUtils.isConnected(context)) {
+      return remoteUserDataSource.queryUserByUsername(username);
+    } else {
+      return localUserDataSource.queryUserByUsername(username);
+    }
   }
 }
