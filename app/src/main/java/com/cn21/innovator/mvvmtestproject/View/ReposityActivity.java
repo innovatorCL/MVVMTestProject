@@ -4,9 +4,17 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
+import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
 import com.cn21.innovator.mvvmtestproject.R;
 import com.cn21.innovator.mvvmtestproject.ViewModel.GithubUserViewModel;
 
@@ -15,7 +23,15 @@ import com.cn21.innovator.mvvmtestproject.ViewModel.GithubUserViewModel;
  */
 public class ReposityActivity extends AppCompatActivity {
 
-  private TextView textView;
+  private EditText etUsername;
+  private Button searchButton;
+  private LinearLayout vContent;
+  private FrameLayout vError;
+  private FrameLayout vLoading;
+  private FrameLayout vEmpty;
+
+  private TextView tvId;
+  private TextView tvName;
 
   GithubUserViewModel githubUserViewModel = new GithubUserViewModel();
 
@@ -24,24 +40,136 @@ public class ReposityActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_reposity);
 
-    /*//初始化数据库
-    DBHelper.getInstance().init(this);
-    //传入 Context 给 Model 层判断该使用远程还是本地的数据源
-    UserRepository.getInstance().init(this);*/
+    etUsername = findViewById(R.id.et_username);
+    searchButton = findViewById(R.id.btn_search);
+    vContent = findViewById(R.id.v_content);
+    vError = findViewById(R.id.v_error);
+    vLoading = findViewById(R.id.v_loading);
+    vEmpty = findViewById(R.id.v_empty);
 
-    textView = findViewById(R.id.github_user_tv);
+    tvId = findViewById(R.id.tv_id);
+    tvName = findViewById(R.id.tv_name);
+
+    initEvent();
 
     // 其实就是 LiveData<T> .observe(observer);
     // VM 层调用 M 层方法获取数据源，然后绑定 View 层
-    githubUserViewModel.getUser("innovatorCL").observe(this, new Observer<GithubUser>() {
+    initData();
+  }
+
+  private void initData(){
+    githubUserViewModel.getUserBaseOnName().observe(this, new Observer<Lcee<GithubUser>>() {
       @Override
-      public void onChanged(@Nullable GithubUser githubUser) {
-        updateUserTv(githubUser);
+      public void onChanged(@Nullable Lcee<GithubUser> data) {
+        updateUserTv(data);
+      }
+    });
+
+    reload();
+  }
+
+  /**
+   * 监听事件，让 V 层处理自己的动作
+   */
+  private void initEvent() {
+    View.OnClickListener reloadClickListener = new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        hideKeyboard();
+        reload();
+      }
+    };
+    vError.setOnClickListener(reloadClickListener);
+    vEmpty.setOnClickListener(reloadClickListener);
+
+    findViewById(R.id.btn_search).setOnClickListener(reloadClickListener);
+
+    etUsername.setOnKeyListener(new View.OnKeyListener() {
+      @Override
+      public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+          hideKeyboard();
+          reload();
+          return true;
+        }
+        return false;
       }
     });
   }
 
-  private void updateUserTv(GithubUser user){
-    textView.setText(user.toString());
+  private void hideKeyboard() {
+    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+            .hideSoftInputFromWindow(ReposityActivity.this.getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+  }
+
+  /**
+   * 更新视图
+   * @param user
+   */
+  private void updateUserTv(Lcee<GithubUser> user){
+    switch (user.status) {
+      case Content:
+        showContent();
+        tvId.setText(user.data.getId() + "");
+        tvName.setText(user.data.getName());
+        break;
+
+      case Empty:
+        showEmpty();
+        break;
+
+      case Error:
+        showError();
+        break;
+
+      case Loading:
+        showLoading();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  private String getUsername() {
+    return etUsername.getText().toString();
+  }
+
+  /**
+   * 通过改变名字来改变 GithubUser 的LiveData，从而改变 View
+   */
+  private void reload() {
+    // reload
+    githubUserViewModel.reload(getUsername());
+  }
+
+
+  private void showContent() {
+    vContent.setVisibility(View.VISIBLE);
+    vEmpty.setVisibility(View.GONE);
+    vError.setVisibility(View.GONE);
+    vLoading.setVisibility(View.GONE);
+  }
+
+  private void showEmpty() {
+    vContent.setVisibility(View.GONE);
+    vEmpty.setVisibility(View.VISIBLE);
+    vError.setVisibility(View.GONE);
+    vLoading.setVisibility(View.GONE);
+  }
+
+  private void showError() {
+    vContent.setVisibility(View.GONE);
+    vEmpty.setVisibility(View.GONE);
+    vError.setVisibility(View.VISIBLE);
+    vLoading.setVisibility(View.GONE);
+  }
+
+  private void showLoading() {
+    vContent.setVisibility(View.GONE);
+    vEmpty.setVisibility(View.GONE);
+    vError.setVisibility(View.GONE);
+    vLoading.setVisibility(View.VISIBLE);
   }
 }

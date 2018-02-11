@@ -1,8 +1,12 @@
 package com.cn21.innovator.mvvmtestproject.Model;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
+import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
 import com.cn21.innovator.mvvmtestproject.Model.Dao.UserDataSource;
 import com.cn21.innovator.mvvmtestproject.Model.Dao.UserService;
 import com.cn21.innovator.mvvmtestproject.Model.Utils.UserServiceImpl;
@@ -29,8 +33,21 @@ public class LocalUserDataSource implements UserDataSource{
    * @return
    */
   @Override
-  public LiveData<GithubUser> queryUserByUsername(String username) {
-    return userService.queryByUsername(username);
+  public LiveData<Lcee<GithubUser>> queryUserByUsername(String username) {
+    final MediatorLiveData<Lcee<GithubUser>> data = new MediatorLiveData<>();
+    data.setValue(Lcee.<GithubUser>loading());
+
+    data.addSource(userService.queryByUsername(username), new Observer<GithubUser>() {
+      @Override
+      public void onChanged(@Nullable GithubUser user) {
+        if(null == user){
+          data.setValue(Lcee.<GithubUser>empty());
+        }else {
+          data.setValue(Lcee.content(user));
+        }
+      }
+    });
+    return data;
   }
 
 

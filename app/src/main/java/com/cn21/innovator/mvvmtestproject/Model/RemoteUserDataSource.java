@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.cn21.innovator.mvvmtestproject.API.UserApi;
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
+import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
 import com.cn21.innovator.mvvmtestproject.Model.Dao.UserDataSource;
 import com.cn21.innovator.mvvmtestproject.Model.Utils.RetrofitFactory;
 
@@ -30,17 +31,22 @@ public class RemoteUserDataSource implements UserDataSource {
   private UserApi userApi = RetrofitFactory.getInstance().create(UserApi.class);
 
   @Override
-  public LiveData<GithubUser> queryUserByUsername(String username) {
-    final MutableLiveData<GithubUser> data = new MutableLiveData<>();
+  public LiveData<Lcee<GithubUser>> queryUserByUsername(String username) {
+    final MutableLiveData<Lcee<GithubUser>> data = new MutableLiveData<>();
+    data.setValue(Lcee.<GithubUser>loading());
+
     userApi.queryUserByUsername(username)
             .enqueue(new Callback<GithubUser>() {
               @Override
               public void onResponse(Call<GithubUser> call, Response<GithubUser> response) {
                 GithubUser user = response.body();
                 if (null == user){
+                  //没有数据，也是一种情况，也要改变数据
+                  data.setValue(Lcee.<GithubUser>empty());
                   return;
                 }
-                data.setValue(user);
+                //LiveData 直接调用 setValue 或 PostValue 就会触发一次数据更新操作
+                data.setValue(Lcee.<GithubUser>content(user));
 
                 //保存到本地
                 LocalUserDataSource.getInstance().addUser(user);
@@ -49,6 +55,7 @@ public class RemoteUserDataSource implements UserDataSource {
               @Override
               public void onFailure(Call<GithubUser> call, Throwable t) {
                 Log.d("TAG","获取GithubUser出错："+t.getMessage());
+                data.setValue(Lcee.<GithubUser>error(t));
               }
             });
     return data;

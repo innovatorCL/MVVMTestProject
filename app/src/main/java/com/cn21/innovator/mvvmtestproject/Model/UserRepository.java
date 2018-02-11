@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.content.Context;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
+import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
 import com.cn21.innovator.mvvmtestproject.Model.Dao.UserDataSource;
 import com.cn21.innovator.mvvmtestproject.Model.Utils.NetworkUtils;
 
@@ -38,7 +39,7 @@ public class UserRepository {
    * @param username
    * @return
    */
-  public LiveData<GithubUser> getUser(String username) {
+  public LiveData<Lcee<GithubUser>> getUser(String username) {
     if (NetworkUtils.isConnected(context)) {
       return remoteUserDataSource.queryUserByUsername(username);
     } else {

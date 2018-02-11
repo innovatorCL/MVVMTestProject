@@ -3,6 +3,7 @@ package com.cn21.innovator.mvvmtestproject.Model.Dao;
 import android.arch.lifecycle.LiveData;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
+import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
 
 /**
  * 对外提供统一的数据源，由 LocalUserDataSource 和 RemoteUserDataSource 实现
@@ -11,5 +12,5 @@ import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
 
 public interface UserDataSource {
 
-  LiveData<GithubUser> queryUserByUsername(String username);
+  LiveData<Lcee<GithubUser>> queryUserByUsername(String username);
 }
