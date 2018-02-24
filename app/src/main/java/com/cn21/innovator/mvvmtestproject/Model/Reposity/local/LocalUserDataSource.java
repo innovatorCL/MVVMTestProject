@@ -1,4 +1,4 @@
-package com.cn21.innovator.mvvmtestproject.Model;
+package com.cn21.innovator.mvvmtestproject.Model.Reposity.local;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
 import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
-import com.cn21.innovator.mvvmtestproject.Model.Dao.UserDataSource;
-import com.cn21.innovator.mvvmtestproject.Model.Dao.UserService;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao.UserDataSource;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao.UserService;
 import com.cn21.innovator.mvvmtestproject.Model.Utils.UserServiceImpl;
 
 /**

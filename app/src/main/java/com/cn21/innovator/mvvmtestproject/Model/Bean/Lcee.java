@@ -2,6 +2,9 @@ package com.cn21.innovator.mvvmtestproject.Model.Bean;
 
 /**
  * 将状态和数据绑定在一起
+ *
+ * Loading、Content、Empty、Error
+ *
  * Created by innovator on 2018/2/11.
  */
 

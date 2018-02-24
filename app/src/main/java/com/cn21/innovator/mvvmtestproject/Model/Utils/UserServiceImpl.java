@@ -5,8 +5,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
-import com.cn21.innovator.mvvmtestproject.Model.Dao.UserDao;
-import com.cn21.innovator.mvvmtestproject.Model.Dao.UserService;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao.UserDao;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao.UserService;
 
 /**
  * 在子线程使用 DBHelper 进行数据库的读取操作和存操作

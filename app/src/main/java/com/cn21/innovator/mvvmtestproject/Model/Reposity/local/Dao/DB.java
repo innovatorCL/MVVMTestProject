@@ -1,4 +1,4 @@
-package com.cn21.innovator.mvvmtestproject.Model.Dao;
+package com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

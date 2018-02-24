@@ -2,7 +2,7 @@ package com.cn21.innovator.mvvmtestproject.API;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -13,5 +13,5 @@ import retrofit2.http.Path;
 
 public interface UserApi {
   @GET("/users/{username}")
-  Call<GithubUser> queryUserByUsername(@Path("username") String username);
+  Observable<GithubUser> queryUserByUsername(@Path("username") String username);
 }

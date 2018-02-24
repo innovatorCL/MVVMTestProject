@@ -3,7 +3,7 @@ package com.cn21.innovator.mvvmtestproject.Model.Utils;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import com.cn21.innovator.mvvmtestproject.Model.Dao.DB;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao.DB;
 
 /**
  * 数据库工具类

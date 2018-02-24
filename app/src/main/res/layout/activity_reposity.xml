@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="githubUser"
+            type="com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser"/>
+
+    </data>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -45,13 +53,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:text="@{String.valueOf(githubUser.id)}"/>
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@{String.valueOf(githubUser.name)}"/>
 
         </LinearLayout>
 
@@ -100,3 +110,4 @@
 
     </FrameLayout>
 </LinearLayout>
+</layout>

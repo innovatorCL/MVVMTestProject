@@ -1,11 +1,14 @@
-package com.cn21.innovator.mvvmtestproject.Model;
+package com.cn21.innovator.mvvmtestproject.Model.Reposity;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
 import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
-import com.cn21.innovator.mvvmtestproject.Model.Dao.UserDataSource;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao.UserDataSource;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.local.LocalUserDataSource;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.remote.RemoteUserDataSource;
 import com.cn21.innovator.mvvmtestproject.Model.Utils.NetworkUtils;
 
 /**
@@ -21,6 +24,7 @@ public class UserRepository {
   private UserRepository() {
   }
 
+  MutableLiveData
   public static UserRepository getInstance() {
     return instance;
   }

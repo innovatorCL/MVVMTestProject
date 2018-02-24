@@ -8,7 +8,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
 import com.cn21.innovator.mvvmtestproject.Model.Bean.Lcee;
-import com.cn21.innovator.mvvmtestproject.Model.UserRepository;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.UserRepository;
 
 /**
  * ViewModel 层，在View层调用M层获取网络数据的方法，然后订阅View层

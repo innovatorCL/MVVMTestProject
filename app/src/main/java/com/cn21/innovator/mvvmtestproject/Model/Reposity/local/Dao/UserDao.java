@@ -1,4 +1,4 @@
-package com.cn21.innovator.mvvmtestproject.Model.Dao;
+package com.cn21.innovator.mvvmtestproject.Model.Reposity.local.Dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

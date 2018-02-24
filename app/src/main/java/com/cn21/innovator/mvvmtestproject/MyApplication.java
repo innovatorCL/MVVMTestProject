@@ -2,7 +2,7 @@ package com.cn21.innovator.mvvmtestproject;
 
 import android.app.Application;
 
-import com.cn21.innovator.mvvmtestproject.Model.UserRepository;
+import com.cn21.innovator.mvvmtestproject.Model.Reposity.UserRepository;
 import com.cn21.innovator.mvvmtestproject.Model.Utils.DBHelper;
 
 /**
