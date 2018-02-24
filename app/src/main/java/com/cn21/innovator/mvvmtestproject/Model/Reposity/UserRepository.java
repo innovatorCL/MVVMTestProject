@@ -1,7 +1,6 @@
 package com.cn21.innovator.mvvmtestproject.Model.Reposity;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.cn21.innovator.mvvmtestproject.Model.Bean.GithubUser;
@@ -24,7 +23,6 @@ public class UserRepository {
   private UserRepository() {
   }
 
-  MutableLiveData
   public static UserRepository getInstance() {
     return instance;
   }
